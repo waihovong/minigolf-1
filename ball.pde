@@ -19,7 +19,6 @@
 class Ball {
     PVector position;
     PVector velocity;
-    
     float radius, m;
     float friction = 0;
     
@@ -28,7 +27,6 @@ class Ball {
         velocity = PVector.random2D();
         velocity.mult(3);
         radius = r_;
-        m = .1 * radius;
     }
     
     void update() {
