@@ -17,6 +17,9 @@
     
     *  http://www.jeffreythompson.org/collision-detection
     *  https://processing.org/examples/circlecollision.html
+    
+    TODO Fix corner collisions. May need more special cases based on direction
+    of ball.
 
 */
 
