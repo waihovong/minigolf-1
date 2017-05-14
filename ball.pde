@@ -13,8 +13,6 @@
     
     *  http://www.jeffreythompson.org/collision-detection
     *  https://processing.org/examples/circlecollision.html
-    
-    TODO Fix corner collisions edge case for static objects.
 
 */
 
@@ -23,7 +21,7 @@ class Ball {
     PVector velocity;
     
     float radius, m;
-    float friction = 0.005;
+    float friction = 0;
     
     Ball(float x, float y, float r_) {
         position = new PVector(x, y);
@@ -71,7 +69,31 @@ class Ball {
         
         float bx = position.x;
         float by = position.y;
-        
+            
+        if (bx + radius == x1 && by + radius == y1) {
+            position.x = x1;
+            position.y = y1;
+            velocity.x *= -1;
+            velocity.y *= -1;
+        }
+        if (bx + radius == x1 && by - radius == y2) {
+            position.x = x1;
+            position.y = y2;
+            velocity.x *= -1;
+            velocity.y *= -1;
+        }
+        if (bx - radius == x2 && by + radius == y1) {
+            position.x = x2;
+            position.y = y1;
+            velocity.x *= -1;
+            velocity.y *= -1;
+        }
+        if (bx - radius == x2 && by - radius == y2) {
+            position.x = x2;
+            position.y = y2;
+            velocity.x *= -1;
+            velocity.y *= -1;
+        }
         if (bx < x1) {
             if (bx + radius > x1 && by + radius > y1 && by - radius < y2) {
                 position.x = x1 - radius;
