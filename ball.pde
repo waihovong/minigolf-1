@@ -66,7 +66,7 @@ class Ball {
         }
     }
     
-    void checkStaticObjectCollision(StaticObject obj) {
+    void checkObjectCollision(Object obj) {
         float x1 = obj.vertices()[0].x;
         float y1 = obj.vertices()[0].y;
         float x2 = obj.vertices()[2].x;

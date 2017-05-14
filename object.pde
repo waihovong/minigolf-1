@@ -14,10 +14,10 @@
 
 */
 
-class StaticObject {
+class Object {
     PVector[] vertices = new PVector[4];
     
-    StaticObject(float x1, float y1, float x2, float y2) {
+    Object(float x1, float y1, float x2, float y2) {
         vertices[0] = new PVector(x1, y1);
         vertices[1] = new PVector(x2, y1);
         vertices[2] = new PVector(x2, y2);
