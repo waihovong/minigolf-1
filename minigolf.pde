@@ -15,6 +15,16 @@
 
 */
 
+Ball ball = new Ball(190, 190, 10);
+
 void setup() {
     size(400, 400);
+}
+
+void draw() {
+    background(50);
+    
+    ball.update();
+    ball.display();
+    ball.checkBoundaryCollision();
 }
