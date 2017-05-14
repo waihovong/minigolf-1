@@ -21,6 +21,7 @@ class Ball {
     PVector velocity;
     
     float radius, m;
+    float friction = 0.005;
     
     Ball(float x, float y, float r_) {
         position = new PVector(x, y);
@@ -32,6 +33,16 @@ class Ball {
     
     void update() {
         position.add(velocity);
+        if (velocity.x > 0) {
+            velocity.x -= friction;
+        } else if (velocity.x < 0) {
+            velocity.x += friction;
+        }
+        if (velocity.y > 0) {
+            velocity.y -= friction;
+        } else if (velocity.y < 0) {
+            velocity.y += friction;
+        }
     }
     
     void checkBoundaryCollision() {
@@ -47,6 +58,39 @@ class Ball {
         } else if (position.y < radius) {
             position.y = radius;
             velocity.y *= -1;
+        }
+    }
+    
+    void checkStaticObjectCollision(StaticObject obj) {
+        float x1 = obj.vertices()[0].x;
+        float y1 = obj.vertices()[0].y;
+        float x2 = obj.vertices()[2].x;
+        float y2 = obj.vertices()[2].y;
+        
+        float bx = position.x;
+        float by = position.y;
+        
+        if (bx < x1) {
+            if (bx + radius > x1 && by + radius > y1 && by - radius < y2) {
+                position.x = x1 - radius;
+                velocity.x *= -1;
+            }
+        } else if (bx > x2) {
+            if (bx - radius < x2 && by + radius > y1 && by - radius < y2) {
+                position.x = x2 + radius;
+                velocity.x *= -1;
+            }
+        }
+        if (by < y1) {
+            if (by + radius > y1 && bx + radius > x1 && bx - radius < x2) {
+                position.y = y1 - radius;
+                velocity.y *= -1;
+            }
+        } else if (by > y2) {
+            if (by - radius < y2 && bx + radius > x1 && bx - radius < x2) {
+                position.y = y2 + radius;
+                velocity.y *= -1;
+            }
         }
     }
     
