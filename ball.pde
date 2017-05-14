@@ -2,7 +2,11 @@
 
     ball.pde
     
-    Author: Robert Woods <hi@robertwoods.me>
+    Author: Aaron Clarke,
+            Wai Ho Vong,
+            Robert Woods <hi@robertwoods.me>,
+            Joshua Wright
+
     URL:    https://github.com/rjww/minigolf
     
     Class for ball collision physics. Currently checks for boundary collisions,
