@@ -2,12 +2,12 @@
 
     ball.pde
     
-    Author: Aaron Clarke,
-            Wai Ho Vong,
-            Robert Woods <hi@robertwoods.me>,
-            Joshua Wright
+    Authors: Aaron Clarke,
+             Wai Ho Vong,
+             Robert Woods <hi@robertwoods.me>,
+             Joshua Wright
 
-    URL:    https://github.com/rjww/minigolf
+    URL:     https://github.com/rjww/minigolf
     
     Class for ball collision physics. Currently checks for boundary collisions,
     but I will create a separate class for static environmental objects and
