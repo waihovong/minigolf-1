@@ -27,17 +27,19 @@ class Ball {
     PVector position;
     PVector velocity;
     float radius, m;
-    float friction = 0;
-    
+
     Ball(float x, float y, float r_) {
         position = new PVector(x, y);
         velocity = PVector.random2D();
         velocity.mult(3);
         radius = r_;
     }
-    
+
     void update() {
         position.add(velocity);
+    }    
+
+    void applyFriction(float friction) {
         if (velocity.x > 0) {
             velocity.x -= friction;
         } else if (velocity.x < 0) {
@@ -49,7 +51,7 @@ class Ball {
             velocity.y += friction;
         }
     }
-    
+
     void checkBoundaryCollision() {
         if (position.x > width - radius) {
             position.x = width - radius;
@@ -65,39 +67,47 @@ class Ball {
             velocity.y *= -1;
         }
     }
-    
+
     void checkObjectCollision(Object obj) {
         float x1 = obj.vertices()[0].x;
         float y1 = obj.vertices()[0].y;
         float x2 = obj.vertices()[2].x;
         float y2 = obj.vertices()[2].y;
-        
+
         float bx = position.x;
         float by = position.y;
-            
-        if (bx + radius == x1 && by + radius == y1) {
-            position.x = x1;
-            position.y = y1;
-            velocity.x *= -1;
-            velocity.y *= -1;
+
+        if (bx < x1 && by < y1) {
+            if (bx + radius == x1 && by + radius == y1) {
+                position.x = x1;
+                position.y = y1;
+                velocity.x *= -1;
+                velocity.y *= -1;
+            }
         }
-        if (bx + radius == x1 && by - radius == y2) {
-            position.x = x1;
-            position.y = y2;
-            velocity.x *= -1;
-            velocity.y *= -1;
+        if (bx < x1 && by > y2) {
+            if (bx + radius == x1 && by - radius == y2) {
+                position.x = x1;
+                position.y = y2;
+                velocity.x *= -1;
+                velocity.y *= -1;
+            }
         }
-        if (bx - radius == x2 && by + radius == y1) {
-            position.x = x2;
-            position.y = y1;
-            velocity.x *= -1;
-            velocity.y *= -1;
+        if (bx > x2 && by < y1) {
+            if (bx - radius == x2 && by + radius == y1) {
+                position.x = x2;
+                position.y = y1;
+                velocity.x *= -1;
+                velocity.y *= -1;
+            }
         }
-        if (bx - radius == x2 && by - radius == y2) {
-            position.x = x2;
-            position.y = y2;
-            velocity.x *= -1;
-            velocity.y *= -1;
+        if (bx > x2 && by > y2) {
+            if (bx - radius == x2 && by - radius == y2) {
+                position.x = x2;
+                position.y = y2;
+                velocity.x *= -1;
+                velocity.y *= -1;
+            }
         }
         if (bx < x1) {
             if (bx + radius > x1 && by + radius > y1 && by - radius < y2) {
@@ -122,7 +132,7 @@ class Ball {
             }
         }
     }
-    
+
     void display() {
         noStroke();
         fill(200);

@@ -36,8 +36,9 @@ void draw() {
     
     ball.update();
     ball.display();
+    ball.applyFriction(0);
     ball.checkBoundaryCollision();
-    
+
     for (Object obj : objects) {
         ball.checkObjectCollision(obj);
     }
