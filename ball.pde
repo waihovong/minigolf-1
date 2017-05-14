@@ -8,6 +8,11 @@
     Class for ball collision physics. Currently checks for boundary collisions,
     but I will create a separate class for static environmental objects and
     add detection for those too.
+    
+    Useful resources:
+    
+    *  http://www.jeffreythompson.org/collision-detection
+    *  https://processing.org/examples/circlecollision.html
 
 */
 
