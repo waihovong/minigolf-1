@@ -2,8 +2,12 @@
 
     object.pde
     
-    Author: Robert Woods <hi@robertwoods.me>
-    URL:    https://github.com/rjww/minigolf
+    Authors: Aaron Clarke,
+             Wai Ho Vong,
+             Robert Woods <hi@robertwoods.me>,
+             Joshua Wright
+
+    URL:     https://github.com/rjww/minigolf
     
     Class for environmental object (e.g. obstacle on hole), which is subject to
     collision detection by the Ball class.
