@@ -1,0 +1,5 @@
+# Roadmap for `entities` branch
+
+Right now, collision physics are working for the **boundaries** of the canvas, and on the edges and (kind of) the corners of simple rectangular **objects**. I (Rob) am working on a more sophisticated system for collision detection and ball deflections, possibly for **polygons with an arbitrary number of vertices** rather than just rectangles. I was also thinking about a **gesture-based style of play**, where the mouse represents a putter which becomes active as left-mouse is pressed. I could then calculate the velocity of the ball from the velocity of the cursor, as a rate of change in position between two points in time.
+
+For now I'm experimenting outside the repo with breaking collision detection into its own class or set of classes. Shouldn't take to long to come back with a result if you guys are happy for me to proceed. Let me know if you want to know how anything works so far; I haven't done much documentation yet because what's there was thrown together on Sunday, but I'll come back to that ASAP.
