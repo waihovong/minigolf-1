@@ -1,5 +1,15 @@
-# Roadmap for `entities` branch
+# Status of `entities` branch
 
-Right now, collision physics are working for the **boundaries** of the canvas, and on the edges and (kind of) the corners of simple rectangular **objects**. I (Rob) am working on a more sophisticated system for collision detection and ball deflections, possibly for **polygons with an arbitrary number of vertices** rather than just rectangles. I was also thinking about a **gesture-based style of play**, where the mouse represents a putter which becomes active as left-mouse is pressed. I could then calculate the velocity of the ball from the velocity of the cursor, as a rate of change in position between two points in time.
+The new collision physics system is now in place. There are two main classes:
 
-For now I'm experimenting outside the repo with breaking collision detection into its own class or set of classes. Shouldn't take to long to come back with a result if you guys are happy for me to proceed. Let me know if you want to know how anything works so far; I haven't done much documentation yet because what's there was thrown together on Sunday, but I'll come back to that ASAP.
+* **`Ball(float x, float y, float radius)`** represents the (or technically a) golf ball in the environment. It takes three arguments: an initial `x` coordinate, an initial `y` coordinate, and a `radius`. Its location is determined by the values of two vectors: `position` and `velocity`, with the current value of `velocity` added to `position` by calling the `update()` method.
+
+* **`Object(float... coords)`** represents an environmental object that is subject to collisions with the ball. It takes an arbitrary number of arguments (although the number must be divisible by two), which are pairs of coordinates representing the vertices of the object. An `Object` with only two arguments is a point; one with four arguments is a line, and one with six or more arguments is a polygon.
+
+Collision physics are handled by calling one of two functions:
+
+* **`checkPolygonCollision(Ball ball, Object poly)`** takes a Ball and an Object as arguments, and is used for testing collisions with polygons.
+
+* **`checkLineCollision(Ball ball, PVector la, PVector la)`** takes a Ball and two vectors representing the endpoints of the line segment as arguments. This function is actually called by `checkPolygonCollision()` internally, as polygons are handled by breaking them up into constitutent line segments, but it can also be called directly to minimize the number of calculations done per frame, e.g. to test collisions with the boundaries of the canvas.
+
+I might need to do some optimization of how things are handled. For example, right now, the system just tests for collisions on every line segment in the map for every frame. This probably won't scale very well. I'll have a think about how I can streamline things, perhaps by only checking against lines within a certain distance of the ball. I'll also try to build in some more features, so let me know if there's anything you guys think would be useful!
