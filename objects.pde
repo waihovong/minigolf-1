@@ -50,8 +50,12 @@ class Object {
     PVector[] vertices;
 
     Object(float... coords) {
+        vertices = _mapCoords(coords);
+    }
+    
+    PVector[] _mapCoords(float[] coords) {
         if (coords.length % 2 != 0) {
-            // Create error for missing pairs.
+            // TODO Create error for missing pairs.
         }
         vertices = new PVector[int(coords.length / 2)];
         for (int i = 0; i < vertices.length; i++) {
@@ -59,6 +63,7 @@ class Object {
             float y = coords[i + (i * 1) + 1];
             vertices[i] = new PVector(x, y);
         }
+        return vertices;
     }
     
     PVector[] vertices() {
@@ -70,11 +75,22 @@ class Object {
     }
     
     void display() {
-        noStroke(); fill(255,0,0,75);
+        stroke(255,0,0); fill(255,0,0,25);
         beginShape();
         for (PVector v : vertices) {
             vertex(v.x, v.y);
         }
+        vertex(vertices[0].x, vertices[0].y);
         endShape();
+    }
+}
+
+class Surface extends Object {
+    PVector[] vertices;
+    float friction;
+    
+    Surface(float f_, float... coords) {
+        vertices = _mapCoords(coords);
+        friction = f_;
     }
 }

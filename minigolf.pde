@@ -4,7 +4,7 @@ Object poly;
 Object[] borders;
 
 void setup() {
-    size(800,800); // frameRate(60);
+    size(800,800); frameRate(60);
     ball = new Ball(11, 11, 10);
     borders = new Object[4];
     borders[0] = new Object(0,0, width,0);
@@ -25,5 +25,5 @@ void draw() {
     }
     poly.display();
     checkPolygonCollision(ball, poly);
-    ball.display();
+    ball.display(); //<>//
 }

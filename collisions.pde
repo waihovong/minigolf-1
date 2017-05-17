@@ -48,7 +48,7 @@ void checkLineCollision(Ball ball, PVector la, PVector lb) {
 
     // Optional visualization of approach and deflection vectors.
     if (VISUALIZE) {
-        fill(255,0,0);
+        fill(255,0,0); stroke(255,0,0);
         ellipse(closest.x, closest.y, 5, 5);
         line(closest.x, closest.y, closest.x + 20 * bv.x, closest.y + 20 * bv.y);
         strokeWeight(2); stroke(225);
