@@ -1,3 +1,5 @@
+int collisionDelay;
+
 boolean checkPointOnLine(PVector p, PVector a, PVector b) {
     float len = PVector.dist(a, b);
     float dist_a = PVector.dist(p, a);
@@ -19,6 +21,10 @@ boolean checkPointCollision(PVector b, float r, PVector p) {
 }
 
 void checkLineCollision(Ball ball, PVector la, PVector lb) {
+    if (collisionDelay > 0) {
+        collisionDelay--;
+        return;
+    }
     PVector bp = ball.getPos();
     PVector bv = ball.getVel().mult(-1);
     float len = PVector.dist(la, lb);
@@ -28,7 +34,7 @@ void checkLineCollision(Ball ball, PVector la, PVector lb) {
     if (checkPointOnLine(closest, la, lb) == false) {
         return;
     }
-    // Calculations for deflect().
+    // Calculations for deflection.
     PVector orth = PVector.sub(la, closest);
     PVector oa = orth.copy().rotate(HALF_PI);
     PVector ob = orth.copy().rotate(-HALF_PI);
@@ -40,9 +46,10 @@ void checkLineCollision(Ball ball, PVector la, PVector lb) {
     PVector proj = orth.copy().mult(PVector.dot(bv, orth)/pow(orth.mag(), 2));
     PVector refl = proj.mult(2).sub(bv);
 
-    // Deflect
+    // Deflect.
     float distance = PVector.dist(closest, bp);
     if (distance <= ball.radius()) {
+        //collisionDelay = 5;
         ball.setVel(refl);
     }
 
@@ -60,7 +67,19 @@ void checkLineCollision(Ball ball, PVector la, PVector lb) {
 }
 
 void checkPolygonCollision(Ball ball, Object poly) {
+    if (collisionDelay > 0) {
+        collisionDelay--;
+        return;
+    }
     PVector[] vertices = poly.vertices();
+    for (PVector v : vertices) {
+        float distc = PVector.dist(ball.getPos(), v);
+        float distn = PVector.dist(PVector.add(ball.getPos(), ball.getVel()), v);
+        if (distc <= ball.radius() && distn < distc) {
+            ball.setVel(ball.getVel().mult(-1));
+            return;
+        }
+    }
     int next;
     for (int current = 0; current < vertices.length; current++) {
         next = current + 1;
@@ -70,5 +89,17 @@ void checkPolygonCollision(Ball ball, Object poly) {
         PVector vc = vertices[current];
         PVector vn = vertices[next];
         checkLineCollision(ball, vc, vn);
+    }
+}
+
+void checkPutterCollision(Putter putter, Ball ball) {
+    PVector pp = putter.getPos();
+    PVector pv = putter.getVel();
+    float pr = putter.radius();
+    PVector bp = ball.getPos();
+    PVector bv = ball.getVel();
+    float br = ball.radius();
+    if (PVector.dist(pp, bp) <= pr + br) {
+        ball.setVel(PVector.sub(pv, bv));
     }
 }

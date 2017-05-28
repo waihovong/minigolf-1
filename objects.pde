@@ -1,10 +1,60 @@
+class Putter {
+    PVector position;
+    PVector prev_pos;
+    PVector velocity;
+    float radius = 10;
+    boolean active = false;
+    
+    Putter() {
+        position = new PVector(mouseX, mouseY);
+        prev_pos = new PVector(mouseX, mouseY);
+        velocity = new PVector(0, 0);
+    }
+    
+    boolean active() {
+        return active;
+    }
+    
+    float radius() {
+        return radius;
+    }
+    
+    PVector getPos() {
+        return position;
+    }
+    
+    PVector getVel() {
+        return velocity;
+    }
+    
+    void update() {
+        PVector bv = ball.getVel();
+        if   (mousePressed && bv.x == 0 && bv.y == 0) { active = true;  }
+        else                                          { active = false; }
+        position.x = mouseX;
+        position.y = mouseY;
+        velocity.x = position.x - prev_pos.x;
+        velocity.y = position.y - prev_pos.y;
+        velocity.mult(.5);
+        prev_pos = position.copy();
+    }
+    
+    void display() {
+        noStroke();
+        if   (active) { fill(100,100,100);    }
+        else          { fill(100,100,100,50); }
+        ellipseMode(CENTER);
+        ellipse(position.x, position.y, 2 * radius, 2 * radius);
+    }
+}
+
 class Ball {
     PVector position, velocity;
     float radius;
     
     Ball(float x, float y, float r_) {
         position = new PVector(x, y);
-        velocity = new PVector(sqrt(2)/2, -sqrt(2)/2);
+        velocity = PVector.random2D();
         velocity.mult(10);
         radius = r_;
     }
