@@ -6,31 +6,61 @@
     
 */
 
+int LEVEL = 0;
+
 Ball ball;
 Object poly;
 Object[] borders;
 
 void setup() {
-    size(800,800); frameRate(60);
-    ball = new Ball(40,40, 10);
-    borders = new Object[4];
-    borders[0] = new Object(0,0, width,0);
-    borders[1] = new Object(width,0, width,height);
-    borders[2] = new Object(width,height, 0,height);
-    borders[3] = new Object(0,height, 0,0);
-    
-    poly = new Object(.5 * width - 200, .5 * height - 200,
-                      .5 * width + 200, .5 * height - 200,
-                      .5 * width + 200, .5 * height + 200);
+    size(1280,720);
+    frameRate(30);
+    loadMenuImages();
+}
+
+void mousePressed() {
+    if (LEVEL == 0 && MENU_HOVER != 0) {
+    }
+}
+
+void mouseMoved() {
+    if (LEVEL == 0) {
+        updateMenu(); //<>// //<>//
+    }
 }
 
 void draw() {
-    background(50); //<>//
-    ball.update();
-    for (Object b : borders) {
-        checkLineCollision(ball, b.vertices()[0], b.vertices()[1]);
+    background(100);
+    switch(LEVEL) {
+        case 0:
+            drawMenu();
+            break;
+        case 1:
+            drawLevel1();
+            break;
+        case 2:
+            drawLevel2();
+            break;
+        case 3:
+            drawLevel3();
+            break;
+        case 4:
+            drawLevel4();
+            break;
+        case 5:
+            drawLevel5();
+            break;
+        case 6:
+            drawLevel6();
+            break;
+        case 7:
+            drawLevel7();
+            break;
+        case 8:
+            drawLevel8();
+            break;
+        case 9:
+            drawLevel9();
+            break;
     }
-    poly.display();
-    checkPolygonCollision(ball, poly);
-    ball.display();
 }

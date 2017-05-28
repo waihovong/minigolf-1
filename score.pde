@@ -1,0 +1,1 @@
+int[] SCORE = new int[9];
