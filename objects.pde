@@ -36,11 +36,6 @@ class Ball {
     }
     
     void display() {
-        if (VISUALIZE) {
-            strokeWeight(2); stroke(255,0,0);
-            line(position.x, position.y,
-                 position.x + 20 * velocity.x, position.y + 20 * velocity.y);
-        }
         noStroke(); fill(200);
         ellipse(position.x, position.y, 2 * radius, 2 * radius);
     }
