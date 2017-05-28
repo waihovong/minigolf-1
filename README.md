@@ -1,4 +1,4 @@
-# Status of `entities` branch
+# Minigolf in Processing
 
 The new collision physics system is now in place. There are two main classes:
 
