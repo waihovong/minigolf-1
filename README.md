@@ -1,14 +1,15 @@
 # Minigolf in Processing
 
-Hey guys. I've created this new repository for the group project so that we can set down branch structure that actually reflects the program itself (rather than just having separate branches for each of us). Here's what we've got so far:
+The new collision physics system is now in place. There are two main classes:
 
-* **master** is where finalized parts of the codebase go once we're all happy with them.
-* **entities** is for classes that are subject to the collision physics, like the ball and environmental obstacles.
-* **environments** is for creating the various levels ("holes") in the game. At this stage I'm thinking that these will need to be defined using environmental object classes that have yet to be created, so maybe leave these for now.
-* **menus** is for in-game menus (obviously); basically a place for Josh to put all the awesome work he's already done on these.
+* **`Ball(float x, float y, float radius)`** represents the (or technically a) golf ball in the environment. It takes three arguments: an initial `x` coordinate, an initial `y` coordinate, and a `radius`. Its location is determined by the values of two vectors: `position` and `velocity`, with the current value of `velocity` added to `position` by calling the `update()` method.
 
-**All of the branches in this repository are protected**, meaning no one can commit directly to them. This is just so we don't accidentally overwrite each others work or anything similar. This isn't actually that big a deal, since commits can be wound back, but it can get confusing. That doesn't mean you can mess around with things though. Just click **Fork** on the top-right to create a copy of the repository under your account, **clone** that copy to your computer, and make whatever changes you like. (In effect, this means that this is my copy of the repo, since there's no real hierarchy to forks.) I'll show everybody how to merge changes made in other people's forks tomorrow, as well as how to open **pull requests** to push changes to a different fork.
+* **`Object(float... coords)`** represents an environmental object that is subject to collisions with the ball. It takes an arbitrary number of arguments (although the number must be divisible by two), which are pairs of coordinates representing the vertices of the object. An `Object` with only two arguments is a point; one with four arguments is a line, and one with six or more arguments is a polygon.
 
-Cheers,
+Collision physics are handled by calling one of two functions:
 
-**Rob**
+* **`checkPolygonCollision(Ball ball, Object poly)`** takes a Ball and an Object as arguments, and is used for testing collisions with polygons.
+
+* **`checkLineCollision(Ball ball, PVector la, PVector la)`** takes a Ball and two vectors representing the endpoints of the line segment as arguments. This function is actually called by `checkPolygonCollision()` internally, as polygons are handled by breaking them up into constitutent line segments, but it can also be called directly to minimize the number of calculations done per frame, e.g. to test collisions with the boundaries of the canvas.
+
+I might need to do some optimization of how things are handled. For example, right now, the system just tests for collisions on every line segment in the map for every frame. This probably won't scale very well. I'll have a think about how I can streamline things, perhaps by only checking against lines within a certain distance of the ball. I'll also try to build in some more features, so let me know if there's anything you guys think would be useful!
