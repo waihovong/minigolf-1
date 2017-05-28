@@ -52,18 +52,6 @@ void checkLineCollision(Ball ball, PVector la, PVector lb) {
         //collisionDelay = 5;
         ball.setVel(refl);
     }
-
-    // Optional visualization of approach and deflection vectors.
-    if (VISUALIZE) {
-        fill(255,0,0); stroke(255,0,0);
-        ellipse(closest.x, closest.y, 5, 5);
-        line(closest.x, closest.y, closest.x + 20 * bv.x, closest.y + 20 * bv.y);
-        strokeWeight(2); stroke(225);
-        line(closest.x, closest.y, closest.x + (1/bv.mag()) * orth.x,
-                                   closest.y + (1/bv.mag()) * orth.y);
-        strokeWeight(2); stroke(0,255,0);
-        line(closest.x, closest.y, closest.x + 20 * refl.x, closest.y + 20 * refl.y);
-    }
 }
 
 void checkPolygonCollision(Ball ball, Object poly) {
@@ -89,17 +77,5 @@ void checkPolygonCollision(Ball ball, Object poly) {
         PVector vc = vertices[current];
         PVector vn = vertices[next];
         checkLineCollision(ball, vc, vn);
-    }
-}
-
-void checkPutterCollision(Putter putter, Ball ball) {
-    PVector pp = putter.getPos();
-    PVector pv = putter.getVel();
-    float pr = putter.radius();
-    PVector bp = ball.getPos();
-    PVector bv = ball.getVel();
-    float br = ball.radius();
-    if (PVector.dist(pp, bp) <= pr + br) {
-        ball.setVel(PVector.sub(pv, bv));
     }
 }

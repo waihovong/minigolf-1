@@ -6,15 +6,12 @@
     
 */
 
-boolean VISUALIZE = false;
-Putter putter;
 Ball ball;
 Object poly;
 Object[] borders;
 
 void setup() {
     size(800,800); frameRate(60);
-    putter = new Putter();
     ball = new Ball(40,40, 10);
     borders = new Object[4];
     borders[0] = new Object(0,0, width,0);
@@ -25,20 +22,15 @@ void setup() {
     poly = new Object(.5 * width - 200, .5 * height - 200,
                       .5 * width + 200, .5 * height - 200,
                       .5 * width + 200, .5 * height + 200);
-} //<>//
+}
 
 void draw() {
-    background(50);
+    background(50); //<>//
     ball.update();
-    if (mousePressed && putter.active()) {
-        checkPutterCollision(putter, ball);
-    }
     for (Object b : borders) {
         checkLineCollision(ball, b.vertices()[0], b.vertices()[1]);
     }
     poly.display();
     checkPolygonCollision(ball, poly);
     ball.display();
-    putter.update();
-    putter.display();
 }
