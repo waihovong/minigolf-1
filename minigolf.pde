@@ -1,32 +1,47 @@
 /*
 
-    TODO:
+    minigolf.pde
     
-    * Figure out equivalent to putterCollided check for Objects. 
-    
+    URL: https://github.com/rjww/minigolf
+
 */
 
 int LEVEL = 0;
 
-Ball ball;
-Object poly;
-Object[] borders;
+Ball BALL;
+Putter PUTTER;
+PVector[][] BOUNDARIES;
+Obstacle[] OBSTACLES;
+PVector HOLE;
 
 void setup() {
     size(1280,720);
-    frameRate(30);
+    frameRate(60);
     loadMenuImages();
 }
 
 void mousePressed() {
-    if (LEVEL == 0 && MENU_HOVER != 0) {
-    }
+    //if (LEVEL == 0 && MENU_HOVER != 0) {
+    //}
+    //if (BALL.getVel().x == 0 && BALL.getVel().y == 0) {
+    //    PUTTER_ACTIVE = true;
+    //}
+}
+
+void mouseReleased() {
+    PUTTER_ACTIVE = false;
 }
 
 void mouseMoved() {
     if (LEVEL == 0) {
-        updateMenu(); //<>// //<>//
+        updateMenu(); //<>//
     }
+    //PUTTER.update();
+}
+
+void mouseDragged() {
+    //PUTTER.update();
+    //checkPutterCollision();
 }
 
 void draw() {

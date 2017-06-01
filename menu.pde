@@ -1,3 +1,11 @@
+/*
+
+    menu.pde
+    
+    URL: https://github.com/rjww/minigolf
+
+*/
+
 PImage[] MENU_IMGS = new PImage[12];
 int MENU_HOVER = 0, MENU_BG_X = 0;
 int[][] MENU_ITEMS_POS = {{540,500, 748,544}, {792,500, 1004,544}, {1036,500, 1248,544},

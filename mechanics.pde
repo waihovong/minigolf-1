@@ -1,4 +1,10 @@
-int collisionDelay;
+/*
+
+    mechanics.pde
+    
+    URL: https://github.com/rjww/minigolf
+
+*/
 
 boolean checkPointOnLine(PVector p, PVector a, PVector b) {
     float len = PVector.dist(a, b);
@@ -20,13 +26,9 @@ boolean checkPointCollision(PVector b, float r, PVector p) {
     return false;
 }
 
-void checkLineCollision(Ball ball, PVector la, PVector lb) {
-    if (collisionDelay > 0) {
-        collisionDelay--;
-        return;
-    }
-    PVector bp = ball.getPos();
-    PVector bv = ball.getVel().mult(-1);
+void checkLineCollision(PVector la, PVector lb) {
+    PVector bp = BALL.getPos();
+    PVector bv = BALL.getVel().mult(-1);
     float len = PVector.dist(la, lb);
     float dot = PVector.dot(PVector.sub(bp, la), PVector.sub(lb, la))/pow(len, 2);
     PVector closest = new PVector(la.x + (dot * (lb.x - la.x)),
@@ -48,23 +50,18 @@ void checkLineCollision(Ball ball, PVector la, PVector lb) {
 
     // Deflect.
     float distance = PVector.dist(closest, bp);
-    if (distance <= ball.radius()) {
-        //collisionDelay = 5;
-        ball.setVel(refl);
+    if (distance <= BALL.radius()) {
+        deflect(refl);
     }
 }
 
-void checkPolygonCollision(Ball ball, Object poly) {
-    if (collisionDelay > 0) {
-        collisionDelay--;
-        return;
-    }
+void checkPolygonCollision(Obstacle poly) {
     PVector[] vertices = poly.vertices();
     for (PVector v : vertices) {
-        float distc = PVector.dist(ball.getPos(), v);
-        float distn = PVector.dist(PVector.add(ball.getPos(), ball.getVel()), v);
-        if (distc <= ball.radius() && distn < distc) {
-            ball.setVel(ball.getVel().mult(-1));
+        float distc = PVector.dist(BALL.getPos(), v);
+        float distn = PVector.dist(PVector.add(BALL.getPos(), BALL.getVel()), v);
+        if (distc <= BALL.radius() && distn < distc) {
+            BALL.setVel(BALL.getVel().mult(-1));
             return;
         }
     }
@@ -76,6 +73,46 @@ void checkPolygonCollision(Ball ball, Object poly) {
         }
         PVector vc = vertices[current];
         PVector vn = vertices[next];
-        checkLineCollision(ball, vc, vn);
+        checkLineCollision(vc, vn);
     }
+}
+
+void checkPutterCollision() {
+    if (!PUTTER_ACTIVE) {
+        return;
+    }
+    PVector bp = BALL.getPos(); float br = BALL.radius(); 
+    PVector pp = PUTTER.getPos(); float pr = PUTTER.radius();
+    float distance = PVector.dist(bp, pp);
+    if (distance <= br + pr) {
+        PVector pv = PUTTER.getVel();
+        deflect(pv.mult(1.4));
+        PUTTER_ACTIVE = false;
+    }
+}
+
+PVector VELOCITY_0 = new PVector(0,0);
+float T = 0;
+
+void deflect(PVector v) {
+    BALL.setVel(v);
+    VELOCITY_0 = v;
+    T = 0;
+}
+
+int FRICTION_DELAY = 10;
+
+void applyFriction(float friction) {
+    if (FRICTION_DELAY > 0) {
+        FRICTION_DELAY--;
+        return;
+    }
+    PVector nv = VELOCITY_0.copy().mult(exp(-friction * T/(frameRate/2)));
+    BALL.setVel(nv);
+    T++;
+    if (abs(nv.x) < 0.1 && abs(nv.y) < 0.1) {
+        nv.x = 0; nv.y = 0;
+    }
+    BALL.setVel(nv);
+    FRICTION_DELAY = 10;
 }

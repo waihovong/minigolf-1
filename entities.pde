@@ -1,11 +1,19 @@
+/*
+
+    entities.pde
+    
+    URL: https://github.com/rjww/minigolf
+
+*/
+
 class Ball {
     PVector position, velocity;
     float radius;
     
     Ball(float x, float y, float r_) {
         position = new PVector(x, y);
-        velocity = PVector.random2D();
-        velocity.mult(10);
+        velocity = new PVector(0, 0);
+        velocity.mult(8);
         radius = r_;
     }
     
@@ -36,15 +44,15 @@ class Ball {
     }
     
     void display() {
-        noStroke(); fill(200);
+        noStroke(); fill(255);
         ellipse(position.x, position.y, 2 * radius, 2 * radius);
     }
 }
 
-class Object {
+class Obstacle {
     PVector[] vertices;
 
-    Object(float... coords) {
+    Obstacle(float... coords) {
         vertices = _mapCoords(coords);
     }
     
@@ -77,5 +85,44 @@ class Object {
         }
         vertex(vertices[0].x, vertices[0].y);
         endShape();
+    }
+}
+
+boolean PUTTER_ACTIVE = false;
+
+class Putter extends Obstacle {
+    PVector position = new PVector(0,0);
+    PVector prev_pos = position.copy();
+    PVector velocity;
+    float radius = 10;
+    
+    Putter() {
+        update();
+    }
+    
+    float radius() {
+        return radius;
+    }
+    
+    PVector getPos() {
+        return position.copy();
+    }
+    
+    PVector getVel() {
+        return velocity.copy();
+    }
+    
+    void update() {
+        position.x = mouseX;
+        position.y = mouseY;
+        velocity = PVector.sub(position, prev_pos);
+        prev_pos = position.copy();
+    }
+    
+    void display() {
+        noStroke();
+        if   (PUTTER_ACTIVE) { fill(200,200,200); }
+        else                 { fill(200,200,200,50); }
+        ellipse(position.x, position.y, 2 * radius, 2 * radius);
     }
 }
